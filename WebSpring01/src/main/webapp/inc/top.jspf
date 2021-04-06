@@ -17,9 +17,15 @@
 <h2 id="menu">
 	<a href="<%=request.getContextPath()%>/">홈</a>
 	
-	<a href="<%=request.getContextPath()%>/login">로그인</a>/로그아웃
-	
-	회원가입/회원정보수정
+	<c:if test="${logStatus!='Y'}">
+		<a href="<%=request.getContextPath()%>/login">로그인</a>
+		<a href="/home/member">회원가입</a>
+	</c:if>
+	<c:if test="${logStatus=='Y'}">
+		<a href="/home/logout">로그아웃</a>
+		<a href="/home/memberEdit">회원정보수정</a>
+	</c:if>
+
 	게시판
 	자료실
 </h2>

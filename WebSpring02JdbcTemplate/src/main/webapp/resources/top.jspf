@@ -20,13 +20,10 @@
 	
 	<c:if test="${logStatus!='Y'}">
 		<a href="<%=request.getContextPath()%>/login">로그인</a>
-		<a href="/home/member">회원가입</a>
 	</c:if>
 	<c:if test="${logStatus=='Y'}">
-		<a href="/home/logout">로그아웃</a>
-		<a href="/home/memberEdit">회원정보수정</a>
+		${logName}<a href="/jdbc/logout">로그아웃</a>
 	</c:if>
-
-	<a href="/home/boardList">게시판</a>
+	<a href="/jdbc/boardList">게시판</a>
 	자료실
 </h2>

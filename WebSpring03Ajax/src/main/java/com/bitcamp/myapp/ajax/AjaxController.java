@@ -27,10 +27,10 @@ public class AjaxController {
 		String num = req.getParameter("num");
 		String name = req.getParameter("name");
 		String id = req.getParameter("id");
-		
+
 		String msg = "num="+num+", name="+name+", id="+id;
 		System.out.println(msg);
-		
+
 		return "서버에서 받은 데이터---->"+msg;
 	}*/
 	@RequestMapping("/ajaxObject")
@@ -38,7 +38,7 @@ public class AjaxController {
 	public TestVO ajaxObject(TestVO vo) {
 		vo.setTel("010-1234-5678");
 		vo.setAddr("서울시 마포구 백범로");
-		
+
 		return vo;
 	}
 	@RequestMapping("/ajaxList")
@@ -56,7 +56,7 @@ public class AjaxController {
 	@ResponseBody
 	public HashMap<String, TestVO> ajaxMap(){
 		HashMap<String, TestVO> map = new HashMap<String, TestVO>();
-		
+
 		map.put("p1", new TestVO("2","이순신","kim1","010-3333-1444","서울시 성동구1"));
 		map.put("p2", new TestVO("3","김순신","kim2","010-3333-2444","서울시 성동구2"));
 		map.put("p3", new TestVO("4","박순신","kim3","010-3333-3444","서울시 성동구3"));
@@ -70,15 +70,15 @@ public class AjaxController {
 		String tel = "010-1234-5678";
 		String addr = "서울시 마포구";
 		String email = "abcd@nate.com";
-		
+
 		String jsonStr = "{\"no\":\""+no+"\",\"name\":\""+name+"\",\"tel\":\""+tel+"\",\"addr\":\""+addr+"\",\"email\":\""+email+"\"}";
 		System.out.println(jsonStr);
-		
+
 		return jsonStr;
 	}
 	/*
-	 
+
 	 {"no":"1234", "name":"홍길동", "tel":"010-1234-5678","addr":"서울시 마포구"}
-	 
+
 	 */
 }

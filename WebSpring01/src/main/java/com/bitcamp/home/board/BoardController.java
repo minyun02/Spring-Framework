@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bitcamp.home.comment.CommentDAO;
+import com.bitcamp.home.comment.CommentVO;
+
 @Controller
 public class BoardController {
 	//게시판 전체 목록 불러오기
@@ -62,6 +65,13 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("vo", vo);
 		mav.setViewName("board/boardView");
+		
+		//댓글-----
+		System.out.println("글클릭--->?"+vo.getNo());
+		CommentDAO dao2 = new CommentDAO();
+		List<CommentVO> commentList = dao2.commentAllRecord(vo.getNo());
+		mav.addObject("comment", commentList);
+		
 		return mav;
 	}
 	//글 수정 폼

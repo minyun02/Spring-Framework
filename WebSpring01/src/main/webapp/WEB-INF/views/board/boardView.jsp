@@ -6,6 +6,25 @@
 			location.href = "/home/boardDel?no="+recordNo;
 		}
 	}
+	//댓글 등록하기
+	$(function(){
+		//commentBtn이 눌리면 이벤트
+		$("#commentBtn").click(function(){
+			var url = "/home/commentWriteOk"
+			var params = $("#commentFrm").serialize();
+			
+			$.ajax({
+				url : url,
+				data : params,
+				success : function(result){
+					console.log(result)
+					$("#comment").val("");
+				},error : function(){
+					console.log("댓글등록 실패...");
+				}
+			});
+		});
+	});
 </script>
 <div class="container">
 	<h1>글내용보기</h1>
@@ -22,44 +41,19 @@
 			<a href="javascript:delCheck(${vo.no})">삭제</a>
 		</c:if>	
 	</div>
-	<!-- 댓글부분 -->
+	<!-- 댓들 입력 창 -->
 	<div>
-		댓글 : <br> 
-		<textarea id="comment" style="width:500px; height:100px" maxlength="100"></textarea><br>
-		<button id="commentGo">댓글달기</button>
-		<ul>
-			<c:forEach var="c" items="${comment}">
-				<li>작성자 : ${c.useridC}</li>
-				<li>등록일 : ${c.writedateC}</li>
-				<li style="border-bottom:1px solid gray">${c.cntentC}</li>
-			</c:forEach>
-		</ul>
+		<!-- 로그인을 해야지 보인다. -->
+		<c:if test="${logStatus=='Y'}">
+			<form method="post" id="commentFrm"> <!-- action not needed when using ajax -->
+				댓글내용 : <br>
+				<!-- 댓글의 원글 번호도 받아가야한다 -->
+				<input type="hidden" name="no" value="${vo.no}">				
+				<textarea name="content" id="comment" style="width:500px; height:100px;"></textarea><br>
+				<input type="button" value="댓글달기" id="commentBtn">
+			</form>
+		</c:if>
 	</div>
-	<script>
-		//댓글이 달리는 글번호는 vo에 있고, 댓글 작성하는 사용자 아이디는 세션에 있다. 그럼 댓글 내용만 보내면된다?
-		$(function(){
-			$("#commentGo").click(function(){
-				var params = "contentC="+$('#comment').val();
-				var url = "/home/ajaxComment?no=${vo.no}";
-				$.ajax({
-					url : url,
-					data : params,
-					success : function(result){
-						$.ajax({
-							url : "/home/boardView?no=${vo.no}",
-							success : function(){
-								console.log("ㅊㅋㅊ")
-							},error : function(){
-								console.log("2실패")
-							}
-						});
-					}, error : function(){
-						console.log("failed......")
-					}
-				});
-			});
-		});
-	</script>
 </div>
 </body>
 </html>

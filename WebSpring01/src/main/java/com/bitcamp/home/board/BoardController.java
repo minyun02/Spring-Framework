@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.bitcamp.home.comment.CommentDAO;
-import com.bitcamp.home.comment.CommentVO;
 
 @Controller
 public class BoardController {
@@ -57,23 +55,17 @@ public class BoardController {
 		return mav;
 	}
 	//글 내용 보기
-	@RequestMapping("/boardView")
-	public ModelAndView boardView(BoardVO vo) {
-		BoardDAO dao = new BoardDAO();
-		dao.boardSelect(vo);
-		
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("vo", vo);
-		mav.setViewName("board/boardView");
-		
-		//댓글-----
-		System.out.println("글클릭--->?"+vo.getNo());
-		CommentDAO dao2 = new CommentDAO();
-		List<CommentVO> commentList = dao2.commentAllRecord(vo.getNo());
-		mav.addObject("comment", commentList);
-		
-		return mav;
-	}
+		@RequestMapping("/boardView")
+		public ModelAndView boardView(BoardVO vo) {
+			BoardDAO dao = new BoardDAO();
+			dao.boardSelect(vo);
+			
+			ModelAndView mav = new ModelAndView();
+			mav.addObject("vo", vo);
+			mav.setViewName("board/boardView");
+			
+			return mav;
+		}
 	//글 수정 폼
 	@RequestMapping("/boardEdit")
 	public ModelAndView boardEdit(BoardVO vo) {

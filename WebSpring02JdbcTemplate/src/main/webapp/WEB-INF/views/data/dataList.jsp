@@ -7,7 +7,7 @@
 	<ul>
 		<c:forEach var="vo" items="${dataList}">
 			<li>${vo.no}</li>
-			<li>${vo.title}</li>
+			<li><a href="/jdbc/dataView?no=${vo.no}">${vo.title}</a></li>
 			<li>${vo.userid}</li>
 			<li><a href="/jdbc/upload/${vo.filename1}" download>${vo.filename1}</a>
 				<c:if test="${vo.filename2!=null}">

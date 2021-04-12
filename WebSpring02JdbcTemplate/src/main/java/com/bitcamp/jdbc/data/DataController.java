@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.bitcamp.jdbc.board.BoardDAO;
 
 @Controller
 public class DataController {
@@ -167,6 +170,126 @@ public class DataController {
 				del.delete();
 			}
 			mav.setViewName("redirect:dataWrite2");
+		}
+		return mav;
+	}
+	@RequestMapping("/dataView")
+	public ModelAndView dataView(int no) {
+		DataDAO dao = new DataDAO();
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("vo", dao.dataSelect(no));
+		mav.setViewName("data/dataView");
+		return mav;
+	}
+	@RequestMapping("/dataEdit")
+	public ModelAndView dataEdit(int no) {
+		DataDAO dao = new DataDAO();
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("vo", dao.dataSelect(no));
+		mav.setViewName("data/dataEdit");
+		return mav;
+	}
+	@RequestMapping("/dataEditOk")
+	public ModelAndView dataEditOk(DataVO vo, HttpServletRequest req, HttpSession session) {
+		System.out.println("??????????????????");
+		vo.setUserid((String)session.getAttribute("logId"));
+		
+		String path = session.getServletContext().getRealPath("/upload");
+		
+		DataDAO dao = new DataDAO();
+		ModelAndView mav = new ModelAndView();
+		//데이터베이스의 파일명을 가져온다.
+		DataVO fileVO = dao.getSelectFilename(vo.getNo());
+		List<String> selFile = new ArrayList<String>();
+		selFile.add(fileVO.getFilename1());
+		if(fileVO.getFilename2()!=null && !fileVO.getFilename2().equals("")) {
+			selFile.add(fileVO.getFilename2());
+		}
+		// 삭제한 파일
+		String delFile[] = req.getParameterValues("delFile");
+		
+		//새로 추가업로드
+		MultipartHttpServletRequest mr = (MultipartHttpServletRequest)req;
+		List<MultipartFile> list = mr.getFiles("filename");
+		
+		List<String> newUpload = new ArrayList<String>(); //객체가 만들어질때 값은 null이 아니다 그냥 비어있다.
+		System.out.println(newUpload.size());
+		if(newUpload!=null && list.size()>0) {//새로 업로드 된 파일이 있는 경우
+			
+			for(MultipartFile mf : list) {
+				if(mf!=null) {
+					String orgname = mf.getOriginalFilename();//원래파일명
+					if(orgname!=null && !orgname.equals("")) {//if=======
+						File ff = new File(path, orgname);
+						int i = 0;
+						while(ff.exists()) {
+							int point = orgname.lastIndexOf(".");
+							String filename = orgname.substring(0, point);
+							String extName = orgname.substring(point+1);
+							
+							ff = new File(path, filename+"("+ ++i +")."+extName);
+						}
+						
+						try {
+							mf.transferTo(ff);
+						}catch(Exception e) {
+							System.out.println("자료실 수정하기 실패..");
+							e.printStackTrace();
+						}
+						newUpload.add(ff.getName());
+					}//if============
+				}//if
+			}//for
+		}//if
+		
+		//DB선택파일목록에서 삭제한 파일 지우기
+		if(delFile!=null) {
+			for(String delName: delFile) {
+				selFile.remove(delName);
+			}
+		}
+		//DB선택파일목록에 새로업로드된 파일명 추가
+		for(String newFile:newUpload) {
+			selFile.add(newFile);
+		}
+		
+		vo.setFilename1(selFile.get(0));
+		if(selFile.size()>1) {
+			vo.setFilename2(selFile.get(1));
+		}
+		
+		if(dao.dataUpdate(vo)>0) {//수정 성공
+			//삭제파일 지우기
+			if(delFile!=null) {
+				for(String dFile : delFile) {
+					try {
+						File dFileObj = new File(path, dFile);
+						dFileObj.delete();
+					}catch(Exception e) {
+						System.out.println("파일 삭제 실패");
+						e.printStackTrace();
+					}
+				}
+			}
+			//글 내용보기
+			mav.addObject("no", vo.getNo());
+			mav.setViewName("redirect:dataView");
+		}else {//실패
+			//새로업로드된 파일지우기
+			if(newUpload.size()>0) {
+				for(String newFile : newUpload) {
+					try {
+						File dFileObj = new File(path, newFile);
+						dFileObj.delete();
+					}catch(Exception e) {
+						System.out.println("실패!!!!!!281");
+						e.printStackTrace();
+					}
+				}
+			}
+			//글 수정폼으로
+			mav.addObject("no", vo.getNo());
+			mav.setViewName("redirect:dataEdit");
 		}
 		return mav;
 	}

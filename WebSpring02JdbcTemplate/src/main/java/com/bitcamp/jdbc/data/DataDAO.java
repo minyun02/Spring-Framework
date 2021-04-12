@@ -38,4 +38,20 @@ public class DataDAO implements DataDAOImpl {
 			}
 		});
 	}
+	@Override
+	public DataVO dataSelect(int no) {
+		String sql = "select no, title, content, userid, hit, downCount, writedate, filename1, filename2 "
+				+ " from data where no=?";
+		return template.queryForObject(sql, new BeanPropertyRowMapper<DataVO>(DataVO.class), no);
+	}
+	@Override
+	public DataVO getSelectFilename(int no) {
+		String sql = "select filename1, filename2 from data where no=?";
+		return template.queryForObject(sql, new BeanPropertyRowMapper<DataVO>(DataVO.class), no);
+	}
+	@Override
+	public int dataUpdate(DataVO vo) {
+		String sql = "update data set title=?, content=?, filename1=?, filename2=? where no=? and userid=?";
+		return template.update(sql, vo.getTitle(), vo.getContent(), vo.getFilename1(), vo.getFilename2(), vo.getNo(), vo.getUserid());
+	}
 }

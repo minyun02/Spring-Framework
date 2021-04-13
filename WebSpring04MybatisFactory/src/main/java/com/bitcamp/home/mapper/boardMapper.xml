@@ -9,7 +9,7 @@
   	</select>
   	<insert id="boardInsert" parameterType="com.bitcamp.home.board.BoardVO">
   		insert into board(no, subject, content, ip, userid)
-  		values(boardsq.nextval, #{subject}, #{content}, #{ip}, #{userid})
+  		values(memsq.nextval, #{subject}, #{content}, #{ip}, #{userid})
   	</insert>
   	<select id="boardSelect" resultType="com.bitcamp.home.board.BoardVO">
   		select no, subject, content, userid, hit, writedate from board where no=#{param1}

@@ -26,8 +26,12 @@
 	<!-- 오라클 서버위치, 아이디, 비번, jdbc드라이브 등 설정 -->
 	<beans:bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></beans:property>
-		<beans:property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></beans:property>
+<!-- 	<beans:property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></beans:property>
 		<beans:property name="username" value="c##scott"></beans:property>
+		<beans:property name="password" value="tiger"></beans:property> -->
+		
+		<beans:property name="url" value="jdbc:oracle:thin:@localhost:51521:xe"></beans:property>
+		<beans:property name="username" value="SCOTT"></beans:property>
 		<beans:property name="password" value="tiger"></beans:property>
 	</beans:bean>
 	<!-- Mybatis 객체생성 -->

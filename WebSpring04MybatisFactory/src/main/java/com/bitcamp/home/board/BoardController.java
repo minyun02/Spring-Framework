@@ -25,6 +25,7 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("list", dao.allList());
 		mav.setViewName("board/boardList");
+		
 		return mav;	
 	}
 	@RequestMapping("/boardWrite")

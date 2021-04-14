@@ -19,10 +19,12 @@
 			<mvc:mapping path="/boardEdit"/>
 			<mvc:mapping path="/boardEditOk"/>
 			<mvc:mapping path="/boardDel"/>
+			
 			<mvc:mapping path="/replyWriteOk"/>
 			<mvc:mapping path="/replyEdit"/>
 			<mvc:mapping path="/replyEditOk"/>
 			<mvc:mapping path="/replyDel"/>
+			
 			<mvc:mapping path="/transactionForm"/>
 			<mvc:mapping path="/claseWrite"/>
 			<mvc:mapping path="/claseWriteOk"/>

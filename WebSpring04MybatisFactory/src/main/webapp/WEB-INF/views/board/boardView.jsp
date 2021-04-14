@@ -22,12 +22,11 @@
     	$(document).ajaxSend(function(event, request, settings){
     		request.setRequestHeader("AJAX","true");
     	});
-    	
     	//ajax 요청 에러받기
     	$(document).ajaxError(function(event, request, settings, thrownError){
     		if(request.status == 1000 || request.status == 0){
     			location.href= "<%=request.getContextPath()%>/loginForm";
-    		}else{
+    		}else{  
     			alert("AJAX요청 에러받기 실패~")
     		}
     	});

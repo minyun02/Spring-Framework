@@ -18,6 +18,20 @@
       }
    }
     $(function(){  
+    	//ajax 요청 등록하기
+    	$(document).ajaxSend(function(event, request, settings){
+    		request.setRequestHeader("AJAX","true");
+    	});
+    	
+    	//ajax 요청 에러받기
+    	$(document).ajaxError(function(event, request, settings, thrownError){
+    		if(request.status == 1000 || request.status == 0){
+    			location.href= "<%=request.getContextPath()%>/loginForm";
+    		}else{
+    			alert("AJAX요청 에러받기 실패~")
+    		}
+    	});
+    	    	
        function replyList(){//1.댓글 리스트
        var url = "/home/replyList";
        var params = "no=${vo.no}" 
@@ -149,14 +163,12 @@
       </c:if>
       
       <div>
-      	<c:if test="${logId==vo.userid}">
-	         <h3>댓글쓰기</h3>
-	         <form method="post" id ="replyFrm">
-	            <input type="hidden" name="no" value="${vo.no}"/>
-	            <textarea name="content" id ="content" style="width:50%;"></textarea><br>
-	    		<input type="submit" value="댓글 쓰기" id="replyBtn"/>
-	         </form>
-	    </c:if>   
+         <h3>댓글쓰기</h3>
+         <form method="post" id ="replyFrm">
+            <input type="hidden" name="no" value="${vo.no}"/>
+            <textarea name="content" id ="content" style="width:50%;"></textarea><br>
+    		<input type="submit" value="댓글 쓰기" id="replyBtn"/>
+         </form>
       </div>
       
       <div id="replyList"></div>

@@ -20,10 +20,16 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		//1. 로그인 정보 구하기
 		String userid = (String)req.getSession().getAttribute("logId");
 		
+		
 		if(userid==null || userid.equals("")) {//로그인 안된 경우
-			//로그인페이지로 이동
-			res.sendRedirect(req.getContextPath()+"/loginForm");
-			return false;//접속한 컨트롤러의 실행을 중지한다.
+			if(isAjaxRequest(req)) {//ajax요청인지 확인
+				//로그인페이지로 이동
+				res.sendError(1000);
+				System.out.println("????????");
+				return false;//접속한 컨트롤러의 실행을 중지한다.
+			}else {
+				res.sendRedirect(req.getContextPath()+"/loginForm");
+			}
 		}
 		return true;//true가 리턴되면 접속한 컨트롤러를 계속 실행한다.
 	}
@@ -40,5 +46,14 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		
 	}
 	
-	
+	//ajax요청 확인하는 메소드
+	private boolean isAjaxRequest(HttpServletRequest req) {
+		String header = req.getHeader("AJAX");
+        if ("true".equals(header)) {
+        	System.out.println("sakjdlfjslklksajdlkfjdsalk");
+        	 return true;
+         } else {
+        	 return false;
+        }
+	}
 }

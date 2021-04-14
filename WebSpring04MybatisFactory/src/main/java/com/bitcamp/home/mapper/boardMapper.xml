@@ -15,7 +15,7 @@
   		select no, subject, content, userid, hit, writedate from board where no=#{param1}
   	</select>
   	<update id="boardUpdate">
-  		update board set subject=#{param2}, content=#{param2} where no=#{param1} and userid=#{param4}
+  		update board set subject=#{param2}, content=#{param3} where no=#{param1} and userid=#{param4}
   	</update>
   	<delete id="boardDelete">
   		delete from board where no=#{param1} and userid=#{param2}

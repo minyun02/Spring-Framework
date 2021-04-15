@@ -5,4 +5,23 @@
 		insert into claseBoard(no, subject, content, ip, userid, ref) 
 		values(boardsq.nextval, #{subject}, #{content}, #{ip}, #{userid}, boardsq.currval)
 	</insert>
+	<select id="claseAllRecord" resultType="com.bitcamp.home.claseBoard.ClaseBoardDTO">
+		select no, subject, userid, hit, to_char(writedate, 'MM-DD HH:MI') writedate, step from claseBoard order by ref desc, lvl asc
+	</select>
+	<select id="claseSelect" resultType="com.bitcamp.home.claseBoard.ClaseBoardDTO">
+		select no, subject, userid, content, hit, writedate from claseBoard where no=#{param1}
+	</select>
+	<update id="hitCount">
+		update claseBoard set hit=hit+1 where no=#{param1}
+	</update>
+	<select id="origInfor" resultType="com.bitcamp.home.claseBoard.ClaseBoardDTO">
+		select no, ref, step, lvl from claseBoard where no=#{param1}
+	</select>
+	<update id="lvlcount" parameterType="com.bitcamp.home.claseBoard.ClaseBoardDTO"> 
+		update claseBoard set lvl=lvl+1 where ref=#{ref} and lvl>#{lvl}
+	</update>
+	<insert id="claseDataInsert" parameterType="com.bitcamp.home.claseBoard.ClaseBoardDTO">
+		insert into claseBoard(no, subject, content, userid, ip, ref, step, lvl) 
+		values(boardsq.nextval, #{subject}, #{content}, #{userid}, #{ip}, #{ref}, #{step}, #{lvl})
+	</insert>
 </mapper>

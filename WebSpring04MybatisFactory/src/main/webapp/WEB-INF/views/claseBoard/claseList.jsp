@@ -26,20 +26,21 @@
 			<li>글쓴이</li>
 			<li>등록일</li>
 			<li>조회수</li>
-			
+			<c:set var="recordNum" value="${totalRecord}"/> <!-- 액션태그로 modelandview에서 세팅한 변수 선언하기 -->
 			<c:forEach var="dto" items="${list}">
-				<li>${dto.no}</li>
+				<li>${recordNum}</li>
 				<li class="wordcut">
 				<c:forEach var="i" begin="1" end="${dto.step}">
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				</c:forEach>
 				<c:if test="${dto.step>0}">
-					⇒
+					▷
 				</c:if>
 				<a href="claseView?no=${dto.no}">${dto.subject}</a></li>
 				<li>${dto.userid}</li>
 				<li>${dto.writedate}</li>
 				<li>${dto.hit}</li>
+				<c:set var="recordNum" value="${recordNum-1}"/>
 			</c:forEach>
 		</ul>
 	</div>

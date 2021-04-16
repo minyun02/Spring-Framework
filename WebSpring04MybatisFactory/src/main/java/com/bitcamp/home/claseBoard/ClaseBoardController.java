@@ -28,6 +28,7 @@ public class ClaseBoardController {
 		ModelAndView mav = new ModelAndView();
 		ClaseBoardDAOImp dao = sqlSession.getMapper(ClaseBoardDAOImp.class);
 		
+		mav.addObject("totalRecord", dao.getTotalRecord()); //총 레코드 수 구하기 ->
 		mav.addObject("list", dao.claseAllRecord());
 		
 		mav.setViewName("claseBoard/claseList");
@@ -60,11 +61,15 @@ public class ClaseBoardController {
 	public ModelAndView claseView(int no) {
 		ClaseBoardDAOImp dao = sqlSession.getMapper(ClaseBoardDAOImp.class);
 		
-		
 		ModelAndView mav = new ModelAndView();
+
 		dao.hitCount(no); //게시물을 눌려서 들어가면 조회수를 올려줘야지!
+		
 		mav.addObject("dto", dao.claseSelect(no));
+		mav.addObject("nextPrev", dao.nextPrev(no));
+		mav.addObject("num", dao.nextPrevNum(no));
 		mav.setViewName("claseBoard/claseView");
+		
 		return mav;
 	}
 	//답글쓰기 폼으로 이동
@@ -118,6 +123,62 @@ public class ClaseBoardController {
 			mav.setViewName("redirect:claseWriteForm");
 			System.out.println("답글쓰기 에러발생--> 롤백!!!");
 		}
+		return mav;
+	}
+	//글 수정 폼으로 이동
+	@RequestMapping("/claseEdit")
+	public ModelAndView claseEdit(int no) {
+		ClaseBoardDAOImp dao = sqlSession.getMapper(ClaseBoardDAOImp.class);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("dto", dao.claseSelect(no));
+		mav.setViewName("claseBoard/claseEdit");
+		return mav;
+	}
+	//글 수정하기
+	@RequestMapping(value="/claseEditOk", method=RequestMethod.POST)
+	public ModelAndView claseEditOk(ClaseBoardDTO dto, HttpSession session) {
+		dto.setUserid((String)session.getAttribute("logId"));
+		
+		ClaseBoardDAOImp dao = sqlSession.getMapper(ClaseBoardDAOImp.class);
+		ModelAndView mav = new ModelAndView();
+		int result = dao.claseUpdate(dto);
+		mav.addObject("no", dto.getNo());
+		if(result>0) {//수정성공 -> 글 내용보기로
+			mav.setViewName("redirect:claseView");
+		}else {//실패 -> 수정페이지로
+			mav.setViewName("redirect:claseEdit");
+		}
+		return mav;
+	}
+	//글 삭제하기
+	@RequestMapping("/claseDel")
+	public ModelAndView claseDel(int no, HttpSession session) {
+		ClaseBoardDAOImp dao = sqlSession.getMapper(ClaseBoardDAOImp.class);
+		String userid = (String)session.getAttribute("logId");
+		//월글삭제가 가능하고 답글이 있는 경우 답글까지 지운다. -> delete
+		//답글은 제목, 글내용을 "삭제된 글입니다"로 바꾼다. -> update
+		
+		//원글인지 확인용 정보 -> step가져오기, no, ref가 같은지
+		ClaseBoardDTO orgData = dao.getStep(no); //step과 userid가 들어있다.
+		
+		int result = 0;
+		if(orgData.getStep()==0 && orgData.getUserid().equals(userid)) {//원글이다.
+			result = dao.claseDelete(no);
+		}else if(orgData.getStep()>0 && orgData.getUserid().equals(userid)){//답글이다.
+			System.out.println(no+"+"+userid);
+			result = dao.claseDeleteUpdate(no, userid);
+		}
+		
+		ModelAndView mav = new ModelAndView();
+		/*if(result>0) {//삭제 성공
+			mav.setViewName("redirect:claseList"); 
+		}else {//삭제 실패
+			mav.addObject("no", no);
+			mav.setViewName("redirect:claseView");
+		}*/
+		mav.addObject("result", result);
+		mav.addObject("no", no);
+		mav.setViewName("claseBoard/delCheck");
 		return mav;
 	}
 }

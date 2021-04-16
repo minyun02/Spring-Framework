@@ -19,4 +19,17 @@ public interface ClaseBoardDAOImp {
 	public int lvlcount(ClaseBoardDTO dto);
 	//새로운답글 넣기
 	public int claseDataInsert(ClaseBoardDTO dto);
+	//총 레코드 수 구하기
+	public int getTotalRecord();
+	//답글 수정하기
+	public int claseUpdate(ClaseBoardDTO dto);
+	//삭제 1.원글 정보 가져오기
+	public ClaseBoardDTO getStep(int no); //step과 userid를 가져와야한다.
+	//원글 삭제
+	public int claseDelete(int no);
+	//월글의 답글들 지우기 update
+	public int claseDeleteUpdate(int no, String userid);
+	//이전글 다음글 불러오기
+	public ClaseBoardDTO nextPrev(int no);
+	public ClaseBoardDTO nextPrevNum(int no);
 }

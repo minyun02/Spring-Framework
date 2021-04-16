@@ -13,7 +13,36 @@ public class ClaseBoardDTO {
 	private int step;
 	private int lvl;
 	
+	private String nextSubject;
+	private String prevSubject;
 	
+	private int nextNum;
+	private int prevNum;
+	
+	public int getNextNum() {
+		return nextNum;
+	}
+	public void setNextNum(int nextNum) {
+		this.nextNum = nextNum;
+	}
+	public int getPrevNum() {
+		return prevNum;
+	}
+	public void setPrevNum(int prevNum) {
+		this.prevNum = prevNum;
+	}
+	public String getNextSubject() {
+		return nextSubject;
+	}
+	public void setNextSubject(String nextSubject) {
+		this.nextSubject = nextSubject;
+	}
+	public String getPrevSubject() {
+		return prevSubject;
+	}
+	public void setPrevSubject(String prevSubject) {
+		this.prevSubject = prevSubject;
+	}
 	public int getNo() {
 		return no;
 	}

@@ -66,10 +66,13 @@ public class ClaseBoardController {
 		dao.hitCount(no); //게시물을 눌려서 들어가면 조회수를 올려줘야지!
 		
 		mav.addObject("dto", dao.claseSelect(no));
-		mav.addObject("nextPrev", dao.nextPrev(no));
-		mav.addObject("num", dao.nextPrevNum(no));
+		//mav.addObject("nextPrev", dao.nextPrev(no)); //이전글 다음글 제목
+		//mav.addObject("num", dao.nextPrevNum(no)); //이전글 다음글 번호
 		mav.setViewName("claseBoard/claseView");
 		
+		//이전글 다음글
+		PrevNextVO vo = dao.lagLeadSelect(no);
+		mav.addObject("vo", vo);
 		return mav;
 	}
 	//답글쓰기 폼으로 이동

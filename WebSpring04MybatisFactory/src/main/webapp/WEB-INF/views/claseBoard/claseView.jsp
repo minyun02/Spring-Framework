@@ -33,10 +33,26 @@
 		<a href="claseWriteForm?no=${dto.no}">답글</a>
 	</div>
 	<div>
-		<c:if test="${dto.step==0}">
-			<a href="claseView?no=${num.prevNum}">이전글</a> -------> <a href="claseView?no=${num.prevNum}">${nextPrev.prevSubject}</a><br>
-			 <a href="claseView?no=${num.nextNum}">다음글</a>-------> <a href="claseView?no=${num.nextNum}">${nextPrev.nextSubject}</a>
+		<!-- 이전글 다음글 -->
+		이전글 : 
+		<c:if test="${vo.nextNo==0}">
+			${vo.nextSubject}
 		</c:if>
+		<c:if test="${vo.nextNo>0}">
+			<a href="claseView?no=${vo.nextNo}">${vo.nextSubject}</a>
+		</c:if>
+		<br>
+		다음글:
+		<c:if test="${vo.prevNo==0}">
+			${vo.prevSubject}
+		</c:if>
+		<c:if test="${vo.prevNo>0}">
+			<a href="claseView?no=${vo.prevNo}">${vo.prevSubject}</a>
+		</c:if>
+		<!--<c:if test="${dto.step==0}">
+			<a href="claseView?no=${num.prevNum}">이전글</a> ------- <a href="claseView?no=${num.prevNum}">${nextPrev.prevSubject}</a><br>
+			 <a href="claseView?no=${num.nextNum}">다음글</a>------- <a href="claseView?no=${num.nextNum}">${nextPrev.nextSubject}</a>
+		</c:if> -->
 	</div>
 </div>
 </body>

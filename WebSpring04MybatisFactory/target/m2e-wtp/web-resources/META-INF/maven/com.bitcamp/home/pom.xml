@@ -125,7 +125,7 @@
 		    <version>5.2.13.RELEASE</version>
 		</dependency>
 		
-		<!-- 2. mybaris-spring -->
+		<!-- 2. mybatis-spring -->
 		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
 		<dependency>
 		    <groupId>org.mybatis</groupId>

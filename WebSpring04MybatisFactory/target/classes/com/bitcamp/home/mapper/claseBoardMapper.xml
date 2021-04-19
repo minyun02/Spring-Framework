@@ -39,12 +39,14 @@
 	<update id="claseDeleteUpdate">
 		update claseboard set subject='삭제된 글입니다...', content='삭제된 글입니다' where no=#{param1} and userid=#{param2}
 	</update>
-	<select id="nextPrev" resultType="com.bitcamp.home.claseBoard.ClaseBoardDTO">
-		select * from (select no, subject, (lead(subject,1,'다음글없음') over (order by no)) nextSubject,
-		(lag(subject,1,'이전글없음') over (order by no)) prevSubject from claseboard where step=0) where no=#{param1}
-	</select>
-	<select id="nextPrevNum" resultType="com.bitcamp.home.claseBoard.ClaseBoardDTO">
-		select * from (select no, subject, (lead(no,1) over (order by no)) nextNum,
-		(lag(no,1) over (order by no)) prevNum from claseboard where step=0) where no=#{param1}
+	<select id="lagLeadSelect" resultType="com.bitcamp.home.claseBoard.PrevNextVO">
+		select * from (
+		    select no,
+		    LAG(no, 1, 0) over (order by no desc) prevNo,
+		    lag(subject, 1, '이전글이 없습니다.') over (order by no desc) prevSubject,
+		    lead(no, 1, 0) over (order by no desc) nextNo,
+		    lead(subject, 1, '다음글이 없습니다.') over (order by no desc) nextSubject
+		    from claseboard where step=0 order by ref desc, lvl asc) 
+		where no=#{param1}
 	</select>
 </mapper>

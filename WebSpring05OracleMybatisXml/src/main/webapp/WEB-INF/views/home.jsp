@@ -14,7 +14,7 @@
 			${logVo.username}로그아웃
 		</a>
 	</c:if>		
-	게시판
+	<a href="boardList">게시판</a>
 </h1>
 </body>
 </html>

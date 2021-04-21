@@ -34,4 +34,9 @@ public class BoardServiceImp implements BoardService {
 	public int boardUpdate(BoardVO vo) {
 		return boardDAO.boardUpdate(vo);
 	}
+
+	@Override
+	public int boardDelete(int no, String userid) {
+		return boardDAO.boardDelete(no, userid);
+	}
 }

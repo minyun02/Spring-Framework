@@ -83,5 +83,17 @@ public class BoardController {
 		}
 		return mav;
 	}
-	
+	//글삭제
+	@RequestMapping("/boardDelete")
+	public ModelAndView boardDelete(int no, HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		int result = boardService.boardDelete(no, ((MemberVO)session.getAttribute("logVo")).getUserid());
+		if(result>0) {//성공
+			mav.setViewName("redirect:boardList");
+		}else {
+			mav.addObject("no", no);
+			mav.setViewName("redirect:boardView");
+		}
+		return mav;
+	}
 }

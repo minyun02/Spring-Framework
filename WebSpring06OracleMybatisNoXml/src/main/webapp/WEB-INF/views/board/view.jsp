@@ -9,6 +9,15 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+<script>
+	$(()=>{
+		$("#boardDel").click(()=>{
+			if(confirm("너가 삭제하라니까 삭제한다?")){
+				location.href = "boardDel?no=${vo.no}";
+			}
+		});
+	});
+</script>
 </head>
 <body>
 	<div class="container">
@@ -23,8 +32,8 @@
 		</ul>
 		<div>
 			<c:if test="${logId==vo.userid}">
-				수정
-				삭제
+				<a href="boardEdit?no=${vo.no}">수정</a>
+				<a href="#" id="boardDel">삭제</a>
 			</c:if>
 		</div>
 	</div>

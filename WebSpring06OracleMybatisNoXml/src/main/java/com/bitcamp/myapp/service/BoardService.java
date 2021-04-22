@@ -9,4 +9,8 @@ public interface BoardService {
 	public BoardVO boardSelect(int no);
 	public int boardInsert(BoardVO vo);
 	public List<BoardVO> searchList(String searchKey, String searchWord);
+	public BoardVO boardEditSelect(int no);
+	public int boardUpdate(BoardVO vo);
+	public int boardDelete(BoardVO vo);
+	public int boardMultiDelete(int[] noList);
 }

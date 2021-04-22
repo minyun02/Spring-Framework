@@ -33,5 +33,25 @@ public class BoardServiceImp implements BoardService {
 	public List<BoardVO> searchList(String searchKey, String searchWord) {
 		return dao.searchList(searchKey, searchWord);
 	}
+
+	@Override
+	public BoardVO boardEditSelect(int no) {
+		return dao.boardEditSelect(no);
+	}
+
+	@Override
+	public int boardUpdate(BoardVO vo) {
+		return dao.boardUpdate(vo);
+	}
+
+	@Override
+	public int boardDelete(BoardVO vo) {
+		return dao.boardDelete(vo);
+	}
+
+	@Override
+	public int boardMultiDelete(int[] noList) {
+		return dao.boardMultiDelete(noList);
+	}
 	
 }

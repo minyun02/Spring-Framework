@@ -2,6 +2,7 @@ package com.bitcamp.myapp.controller;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,9 +21,6 @@ public class BoardController {
 	@RequestMapping("/list")
 	public ModelAndView boardList(HttpServletRequest req, String searchKey, String searchWord) {
 		ModelAndView mav =  new ModelAndView();
-		
-		//String searchKey = req.getParameter("searchKey");
-		//String searchWord = req.getParameter("searchWord");
 		
 		if(searchKey==null && searchWord==null) {
 			mav.addObject("list",  service.allList());
@@ -56,6 +54,59 @@ public class BoardController {
 		}else {//실패
 			mav.setViewName("redirect:write");
 		}
+		return mav;
+	}
+	
+	// 글 수정
+	@RequestMapping("/boardEdit")
+	public ModelAndView boardEdit(int no) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("vo", service.boardEditSelect(no));
+		mav.setViewName("board/edit");
+		return mav;
+	}
+	// 글 수정 업데이트
+	@RequestMapping(value="/editOk", method=RequestMethod.POST)
+	public ModelAndView boardEditOk(BoardVO vo, HttpSession session) {
+		vo.setUserid((String)session.getAttribute("logId"));
+
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("no", vo.getNo());
+		if(service.boardUpdate(vo)>0) {//성공
+			mav.setViewName("redirect:view");
+		}else {//실패
+			mav.setViewName("redirect:boardEdit");
+		}
+		return mav;
+	}
+	//글 삭제
+	@RequestMapping("/boardDel")
+	public ModelAndView boardDel(BoardVO vo, HttpSession session) {
+		vo.setUserid((String)session.getAttribute("logId"));
+		ModelAndView mav = new ModelAndView();
+		
+		if(service.boardDelete(vo)>0) {
+			mav.setViewName("redirect:list");
+			System.out.println("ASDF");
+		}else {
+			mav.addObject("no", vo.getNo());
+			mav.setViewName("redirect:view");
+			System.out.println("A1234");
+		}
+		return mav;
+	}
+	
+	//레코드 여러개를 한번에 삭제하기
+	@RequestMapping("/multiDel")
+	public ModelAndView boardMultiDel(BoardVO vo) {
+		for(int no : vo.getNoList()) {
+			System.out.println("no="+no);
+		}
+
+		ModelAndView mav = new ModelAndView();
+		int result = service.boardMultiDelete(vo.getNoList());
+		System.out.println(result+"개 삭제");
+		mav.setViewName("redirect:list");
 		return mav;
 	}
 }

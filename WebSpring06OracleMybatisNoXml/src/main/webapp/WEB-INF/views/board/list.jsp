@@ -18,6 +18,7 @@
 	li{
 		float: left; width:10%; height: 40px; line-height:40px; border-bottom:1px solid lightblue;
 	}
+	
 	li:nth-child(5n+2){
 		width: 60%;
 	}
@@ -30,9 +31,13 @@
 <script>
 	$(function(){
 		$("#searchFrm").submit(function(){
+			
+			if($("#searchWord").val()==''){
+				alert("검색어를 입력해주세요.")
+				return false;
+			}
 			var url = "/myapp/list";
 			var params = "searchKey="+$("#searchKey").val()+"&searchWord="+$("#searchWord").val();
-			alert(params);
 			
 			$.ajax({
 				url : url,
@@ -43,6 +48,15 @@
 					
 				}
 			});
+		});
+		
+		//전체 선택시 모든 체크박스 체크
+		$("#listAllCheck").click(function(){
+			$("#boardList input[type=checkbox]").prop('checked', $(this).prop('checked'));
+		});
+		//선택삭제가 클릭되면
+		$("#delSelect").click(()=>{
+			$("#delList").submit();
 		});
 	});
 </script>
@@ -63,20 +77,30 @@
 			<input type="text" id="searchWord" name="searchWord">
 			<button>검색</button>
 		</form>
-		<ul>
+		
+			<input type="checkbox" id="listAllCheck">전체선택
+			<input type="button" value="선택삭제" id="delSelect">
+		
+		<ul id="boardList">
 			<li>번호</li>
 			<li>제목</li>
 			<li>글쓴이</li>
 			<li>조회수</li>
 			<li>작성일</li>
-			
-			<c:forEach var="vo" items="${list}">	
-				<li>${vo.no}</li>
-				<li class="wordcut"><a href="view?no=${vo.no}">${vo.subject}</a></li>
-				<li>${vo.userid}</li>
-				<li>${vo.hit}</li>
-				<li>${vo.writedate}</li>
-			</c:forEach>
+
+			<form method="post" id="delList" action="multiDel">	
+				<c:forEach var="vo" items="${list}">
+					<li>
+						<c:if test="${logId==vo.userid}">
+							<input type="checkbox" name="noList" value="${vo.no}">
+						</c:if>			
+						${vo.no}</li>
+					<li class="wordcut"><a href="view?no=${vo.no}">${vo.subject}</a></li>
+					<li>${vo.userid}</li>
+					<li>${vo.hit}</li>
+					<li>${vo.writedate}</li>
+				</c:forEach>
+			</form>
 		</ul>
 	</div>
 </body>

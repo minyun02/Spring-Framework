@@ -11,6 +11,16 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
 </head>
 <body>
-
+<div class="container">
+	<h1>글 수정 noXml</h1>
+	<form method="post" action="editOk">
+		<input type="hidden" name="no" value="${vo.no}">
+		<ul>
+			<li>제목 : <input type="text" name="subject" value="${vo.subject}" width="100%"></li>
+			<li>내용 : <br><textarea name="content" cols="60" rows="10">${vo.content}</textarea></li>
+			<li><input type="submit" value="글수정"></li>
+		</ul>
+	</form>
+</div>
 </body>
 </html>

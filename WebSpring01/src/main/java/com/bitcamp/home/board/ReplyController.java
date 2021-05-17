@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class ReplyController {
-	
+
 	@RequestMapping(value="/commentWriteOk", method=RequestMethod.POST)
 	@ResponseBody
 	public String commentWriteOk(ReplyVO vo, HttpServletRequest req) {
@@ -25,7 +25,7 @@ public class ReplyController {
 	@ResponseBody
 	public List<ReplyVO> replyList(int no){
 		//System.out.println("원글번호===>"+no);
-		
+
 		ReplyDAO dao = new ReplyDAO();
 		return dao.replyAllRecord(no);
 	}

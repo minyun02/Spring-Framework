@@ -15,12 +15,12 @@ public class BoardReplyDAO implements BoardReplyDAOImpl {
 	public BoardReplyDAO() {
 		template = Constants.jdbcTemplate;
 	}
-	
+
 	@Override
 	public int replyInsert(final BoardReplyVO vo) {
 		String sql = "insert into boardReply(num, no, content, userid, ip) values(boardsq.nextval, ?, ?, ?, ?)";
 		return template.update(sql, new PreparedStatementSetter() {
-			
+
 			@Override
 			public void setValues(PreparedStatement ps) throws SQLException {
 				ps.setInt(1, vo.getNo());

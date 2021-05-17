@@ -14,13 +14,13 @@ public class ReplyDAO extends DBCPConnection implements ReplyDAOImpl {
 			getConn();
 			sql = "insert into reply(num, no, content, userid) values(memsq.nextval, ?,?,?)";
 			pstmt = conn.prepareStatement(sql);
-			
+
 			pstmt.setInt(1, vo.getNo());
 			pstmt.setString(2, vo.getContent());
 			pstmt.setString(3, vo.getUserid());
-			
+
 			result = pstmt.executeUpdate();
-			
+
 		}catch(Exception e) {
 			System.out.println("댓글등록 에러 발생");
 			e.printStackTrace();
@@ -61,7 +61,7 @@ public class ReplyDAO extends DBCPConnection implements ReplyDAOImpl {
 			pstmt.setInt(1, num);
 			pstmt.setString(2, userid);
 			result = pstmt.executeUpdate();
-			
+
 		}catch(Exception e) {
 			System.out.println("failed to delete a comment from dao");
 			e.printStackTrace();

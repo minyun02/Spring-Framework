@@ -42,7 +42,7 @@
 			$.ajax({
 				url : url,
 				data : params,
-				success : function(){
+				success : function(result){
 						
 				}, error : function(){
 					

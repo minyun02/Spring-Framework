@@ -4,11 +4,11 @@
 	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
 	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
-	
+
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
-	<!--  head에 mybatis-spring 추가 -->	
-		
+	<!--  head에 mybatis-spring 추가 -->
+
 	<!-- DataSource root-context는 객체선언이 bean not beans-->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
@@ -16,7 +16,7 @@
 		<property name="username" value="c##scott"></property>
 		<property name="password" value="tiger"></property>
 	</bean>
-	
+
 	<!-- SqlSessionFactory 생성 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>

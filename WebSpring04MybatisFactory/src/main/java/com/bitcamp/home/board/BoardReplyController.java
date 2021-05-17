@@ -40,10 +40,9 @@ public class BoardReplyController {
    @RequestMapping("/replyEdit")
    @ResponseBody
    public String replyEdit (HttpServletRequest req, BoardReplyVO vo) {
-      vo.setUserid((String)req.getSession().getAttribute("logId"));
-      
+	  vo.setUserid((String)req.getSession().getAttribute("logId"));
       BoardReplyDAOImpl dao =sqlSession.getMapper(BoardReplyDAOImpl.class);
-   return dao.replyUpdate(vo)+"개 edit 성공";
+      return dao.replyUpdate(vo)+"개 edit 성공";
    }
    
    @RequestMapping("/replyDel")
